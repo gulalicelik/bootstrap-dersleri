@@ -9,11 +9,22 @@ myLoginForm.addEventListener('submit', (e) => {
         if (rememberMe) {
             localStorage.setItem('username', username);
             localStorage.setItem('password', password);
-        }
-        else {
+        } else {
             localStorage.removeItem('username');
             localStorage.removeItem('password');
         }
+        fetch('https://dummyjson.com/auth/login', {
+            method : 'POST',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify({
+                username : username,
+                password : password,
+                // expiresInMins: 60, // optional
+            })
+        })
+            .then(res => res.json())
+            .then(data => alert(`Giriş başarılı , login olan kullanıcı  ${data.firstName}`))
+            .catch(error => alert(error))
     } else {
         alert('Username or password is too short');
     }
@@ -32,3 +43,5 @@ window.onload = function () {
         document.getElementById('exampleInputPassword1').value = localStorage.getItem('password');
     }
 }
+
+
