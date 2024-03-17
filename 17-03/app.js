@@ -22,8 +22,14 @@ myLoginForm.addEventListener('submit', (e) => {
                 // expiresInMins: 60, // optional
             })
         })
-            .then(res => res.json())
-            .then(data => alert(`Giriş başarılı , login olan kullanıcı  ${data.firstName}`))
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    throw new Error('Invalid username or password');
+                }
+            })
+            .then(data => {alert(`Giriş başarılı. Name: ${data.firstName}`)})
             .catch(error => alert(error))
     } else {
         alert('Username or password is too short');
